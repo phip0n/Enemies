@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 4688814651773699199, guid: 781ec482964d303498c56855401effee, type: 3}
     - target: {fileID: 3457351910504311300, guid: e3d04b395fc958746a9f16f9eb72c002, type: 3}
       propertyPath: _spawnPeriod
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5648674866125128248, guid: e3d04b395fc958746a9f16f9eb72c002, type: 3}
       propertyPath: m_Size

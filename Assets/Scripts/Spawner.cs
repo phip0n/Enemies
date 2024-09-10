@@ -27,19 +27,18 @@ public class Spawner : MonoBehaviour
         StartCoroutine(Spawn());
     }
 
-    private Quaternion GetRotation()
+    private Vector3 GetDirection()
     {
         Vector3 direction = Random.insideUnitCircle.normalized;
         direction.z = direction.y;
         direction.y = 0;
-        return Quaternion.LookRotation(direction, Vector3.up);
+        return direction;
     }
 
     private void InitEnemy(Enemy enemy)
     {
-        Quaternion rotation = GetRotation();
         enemy.transform.position = transform.position;
-        enemy.gameObject.transform.rotation = rotation;
+        enemy.Init(GetDirection());
         enemy.SetActive(true);
         enemy.Died += ReleaseEnemy;
     }
