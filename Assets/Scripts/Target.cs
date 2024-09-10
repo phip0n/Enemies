@@ -8,11 +8,6 @@ public class Target : MonoBehaviour
     [SerializeField] private float _speed = 0.005f;
     private int _currentPointNumber = 0;
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         Move();

@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
 public class Enemy : MonoBehaviour
@@ -13,13 +10,9 @@ public class Enemy : MonoBehaviour
 
     public event Action<Enemy> Died;
 
-    private void OnEnable()
-    {
-    }
-
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.TryGetComponent<Target>(out Target target))
+        if (collider.gameObject.TryGetComponent(out Target target))
         {
             SetActive(false);
             Died?.Invoke(this);
@@ -32,10 +25,12 @@ public class Enemy : MonoBehaviour
         Move();
     }
 
-    public void Init(Vector3 direction, Transform transform)
+    public void Init(Vector3 direction, Transform target, Vector3 position)
     {
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-        _target = transform;
+        transform.position = position;
+        _target = target;
+        SetActive(true);
     }
 
     public void SetActive(bool isActive)

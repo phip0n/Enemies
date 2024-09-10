@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     {
         _pool = new ObjectPool<Enemy>(
             createFunc: () => Instantiate(_enemy),
-            actionOnGet: (enemy) => InitEnemy(enemy),
+            actionOnGet: (enemy) => InitEnemy(enemy, transform.position),
             actionOnRelease: (enemy) => DoReleaseActions(enemy),
             collectionCheck: true,
             defaultCapacity: _poolSize,
@@ -35,11 +35,9 @@ public class Spawner : MonoBehaviour
         return direction;
     }
 
-    private void InitEnemy(Enemy enemy)
+    private void InitEnemy(Enemy enemy, Vector3 position)
     {
-        enemy.transform.position = transform.position;
-        enemy.Init(GetDirection(), _target.transform);
-        enemy.SetActive(true);
+        enemy.Init(GetDirection(), _target.transform, position);
         enemy.Died += ReleaseEnemy;
     }
 
