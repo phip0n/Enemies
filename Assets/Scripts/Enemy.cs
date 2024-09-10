@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed = 3;
     [SerializeField] private float _lifeTime = 10;
     private Vector3 _moveDirection;
-
     private Coroutine _waitForDeath;
 
     public event Action<Enemy> Died;
