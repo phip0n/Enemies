@@ -4,23 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Collider))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 3;
-    [SerializeField] private float _lifeTime = 10;
-    private Vector3 _moveDirection;
-    private Coroutine _waitForDeath;
+    [SerializeField] private float _rotationSpeed = 10;
+    private Transform _target;
 
     public event Action<Enemy> Died;
 
     private void OnEnable()
     {
-        _waitForDeath = StartCoroutine(WaitForDeath());
     }
 
-    private void OnDisable()
+    private void OnTriggerEnter(Collider collider)
     {
-        StopCoroutine(_waitForDeath);
+        if (collider.gameObject.TryGetComponent<Target>(out Target target))
+        {
+            SetActive(false);
+            Died?.Invoke(this);
+        }
     }
 
     private void Update()
@@ -29,9 +32,10 @@ public class Enemy : MonoBehaviour
         Move();
     }
 
-    public void Init(Vector3 direction)
+    public void Init(Vector3 direction, Transform transform)
     {
-        _moveDirection = direction;
+        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        _target = transform;
     }
 
     public void SetActive(bool isActive)
@@ -41,7 +45,9 @@ public class Enemy : MonoBehaviour
 
     private void Rotate()
     {
-        transform.rotation = Quaternion.LookRotation(_moveDirection, Vector3.up);
+        Vector3 targetVector = _target.position - transform.position;
+        Quaternion targetRotation = Quaternion.LookRotation(targetVector, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed);
     }
 
     private void Move()
@@ -50,13 +56,5 @@ public class Enemy : MonoBehaviour
         {
             transform.position += transform.forward * _speed * Time.deltaTime;
         }
-    }
-
-    private IEnumerator WaitForDeath()
-    {
-        WaitForSeconds time = new WaitForSeconds(_lifeTime);
-        yield return time;
-        SetActive(false);
-        Died.Invoke(this);
     }
 }

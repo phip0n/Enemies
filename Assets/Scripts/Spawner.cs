@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;
-    [SerializeField] private Transform _target;
+    [SerializeField] private Target _target;
     [SerializeField] float _spawnPeriod = 0.5f;
     [SerializeField] int _poolSize = 500;
     private ObjectPool<Enemy> _pool;
@@ -38,7 +38,7 @@ public class Spawner : MonoBehaviour
     private void InitEnemy(Enemy enemy)
     {
         enemy.transform.position = transform.position;
-        enemy.Init(GetDirection());
+        enemy.Init(GetDirection(), _target.transform);
         enemy.SetActive(true);
         enemy.Died += ReleaseEnemy;
     }
