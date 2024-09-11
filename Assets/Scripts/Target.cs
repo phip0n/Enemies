@@ -6,7 +6,7 @@ public class Target : MonoBehaviour
 {
     [SerializeField] private Vector3[] _wayPoints;
     [SerializeField] private float _speed = 0.005f;
-    private int _currentPointNumber = 0;
+    private int _currentPointIndex = 0;
 
     private void Update()
     {
@@ -15,16 +15,16 @@ public class Target : MonoBehaviour
 
     private void Move()
     {
-        Vector3 position = Vector3.MoveTowards(transform.position, _wayPoints[_currentPointNumber], _speed * Time.deltaTime);
+        Vector3 position = Vector3.MoveTowards(transform.position, _wayPoints[_currentPointIndex], _speed * Time.deltaTime);
         transform.position = position;
 
-        if (transform.position == _wayPoints[_currentPointNumber])
+        if (transform.position == _wayPoints[_currentPointIndex])
         {
-            _currentPointNumber++;
+            _currentPointIndex++;
 
-            if (_currentPointNumber == _wayPoints.Length)
+            if (_currentPointIndex == _wayPoints.Length)
             {
-                _currentPointNumber = 0;
+                _currentPointIndex = 0;
             }
         }
     }

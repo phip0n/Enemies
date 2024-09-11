@@ -12,9 +12,9 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.TryGetComponent(out Target target))
+        if (collider.transform == _target)//collider.gameObject.TryGetComponent(out Target target)
         {
-            SetActive(false);
+            gameObject.SetActive(false);
             Died?.Invoke(this);
         }
     }
@@ -30,12 +30,7 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.position = position;
         _target = target;
-        SetActive(true);
-    }
-
-    public void SetActive(bool isActive)
-    {
-        gameObject.SetActive(isActive);
+        gameObject.SetActive(true);
     }
 
     private void Rotate()

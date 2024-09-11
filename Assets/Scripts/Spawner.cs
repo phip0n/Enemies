@@ -43,7 +43,6 @@ public class Spawner : MonoBehaviour
 
     private void DoReleaseActions(Enemy enemy)
     {
-        enemy.SetActive(false);
         enemy.Died -= ReleaseEnemy;
     }
 
